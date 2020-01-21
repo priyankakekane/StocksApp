@@ -5,6 +5,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 const useStyles = makeStyles(theme => ({
@@ -17,6 +18,11 @@ export default function Orders(props) {
     const classes = useStyles();
     let stockRows = props.stockList;
 
+    function onSelectAllClick(id) {
+        console.log(id);
+        
+    }
+
     return (
         <React.Fragment>
             <Table>
@@ -24,6 +30,8 @@ export default function Orders(props) {
                     <TableRow>
                         <TableCell>Stock Name</TableCell>
                         <TableCell>Stock Price</TableCell>
+                        <TableCell>Buy</TableCell>
+                        <TableCell>Sell</TableCell>
                     </TableRow>
                 </TableHead>
                 {
@@ -36,6 +44,10 @@ export default function Orders(props) {
                                     <TableRow key={row.id}>
                                         <TableCell>{row.name}</TableCell>
                                         <TableCell>{row.price}</TableCell>
+                                        <TableCell padding="checkbox">
+                                           
+                                                                                   
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>
