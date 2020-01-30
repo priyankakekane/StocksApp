@@ -17,6 +17,8 @@
     "clsx": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-loading-overlay": "^1.0.1",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "latest"
   },
   "browserslist": {

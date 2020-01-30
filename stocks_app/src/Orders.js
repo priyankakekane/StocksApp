@@ -5,59 +5,111 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
+import Layout from './Layout';
+import axios from 'axios';
 
+class Orders extends React.Component {
 
-const useStyles = makeStyles(theme => ({
-    // seeMore: {
-    //     marginTop: theme.spacing(3),
-    // },
-}));
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            stockList: [],
+            notifyError: false,
+            userPortfolio: {},
+        }
 
-export default function Orders(props) {
-    const classes = useStyles();
-    let stockRows = props.stockList;
-
-    function onSelectAllClick(id) {
-        console.log(id);
-        
     }
 
-    return (
-        <React.Fragment>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Stock Name</TableCell>
-                        <TableCell>Stock Price</TableCell>
-                        <TableCell>Buy</TableCell>
-                        <TableCell>Sell</TableCell>
-                    </TableRow>
-                </TableHead>
+
+
+    componentDidMount() {
+        axios.get('https://work.setu.co/assignments/stock-ui/stocks')
+            .then((response) => {
+                this.setState({
+                    stockList: response.data.data
+                })
+            })
+            .catch((error) => {
+                this.setState({
+                    notifyError: true
+                })
+            })
+
+        let userId = 2;
+
+        axios.get(`https://work.setu.co/assignments/stock-ui/${userId}/portfolio`)
+            .then((response) => {
+                console.log(response);
+                this.setState({
+                    userPortfolio: response.data.data
+                })
+            })
+            .catch((error) => {
+                this.setState({
+                    notifyError: true
+                })
+            })
+    }
+
+    closeNotifyError = () => {
+        this.setState({
+            notifyError: false
+        })
+    }
+
+    
+
+
+    render() {
+        const { classes, theme } = this.props;
+        return (
+            <Layout>
+
                 {
-                    stockRows ?
+                    this.state.stockList ?
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Stock Name</TableCell>
+                                        <TableCell>Stock Price</TableCell>
+
+                                {
+                                    this.state.stockList.units ?
+                                        <TableCell>Stock Units</TableCell>
+                                        : ""
+                                }
+                            </TableRow>
+                        </TableHead>
+
 
                         <TableBody>
                             {
 
-                                stockRows.map(row => (
+                                this.state.stockList.map(row => (
                                     <TableRow key={row.id}>
                                         <TableCell>{row.name}</TableCell>
-                                        <TableCell>{row.price}</TableCell>
-                                        <TableCell padding="checkbox">
-                                           
-                                                                                   
-                                        </TableCell>
+                                        {
+                                            row.price ?
+                                                <TableCell>{row.price}</TableCell>
+                                            : ""
+                                        }
+                                        {
+                                            row.units ?
+                                                <TableCell>{row.price}</TableCell>
+                                            : ""
+                                        }
                                     </TableRow>
                                 ))}
                         </TableBody>
 
-
+                    </Table>
                     : ""
                 }
-                
-            </Table>
-            
-        </React.Fragment>
-    );
+
+
+            </Layout>       
+    )}
 }
+
+export default Orders;

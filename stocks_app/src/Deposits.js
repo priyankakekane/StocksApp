@@ -1,30 +1,92 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Orders from './Orders';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Layout from './Layout';
+import axios from 'axios';
 
-const useStyles = makeStyles({
-    depositContext: {
-        flex: 1,
-    },
-});
 
-export default function Deposits(props) {
-    const classes = useStyles();
-    console.log(props);
-    return (
-        <React.Fragment>
-            <Typography component="p" variant="h4">
-                Available Cash {props.userDetails.cash}
-            </Typography>
-            {
-                props.userDetails.buys ?
-                    props.userDetails.buys.length > 0 ?
-                    <Orders stockList={props.userDetails.buys}  /> : ""
-                : ""
-            }
-            
-            
-        </React.Fragment>
-    );
+class Deposits extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            stockList: [],
+            notifyError: false,
+            userPortfolio: {},
+        }
+
+    }
+
+
+
+    componentDidMount() {
+        let userId = 2;
+
+        axios.get(`https://work.setu.co/assignments/stock-ui/${userId}/portfolio`)
+            .then((response) => {
+                console.log(response);
+                this.setState({
+                    userPortfolio: response.data.data
+                })
+            })
+            .catch((error) => {
+                this.setState({
+                    notifyError: true
+                })
+            })
+    }
+
+    closeNotifyError = () => {
+        this.setState({
+            notifyError: false
+        })
+    }
+
+
+
+
+    render() {
+        const { classes, theme } = this.props;
+        console.log(this.state.userPortfolio);
+        return (
+            <Layout>
+
+                 {
+                    this.state.userPortfolio.buys ?
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Stock Name</TableCell>
+                                    <TableCell>Stock Units</TableCell>
+                                </TableRow>
+                            </TableHead>
+
+
+                            <TableBody>
+                                {
+
+                                    this.state.userPortfolio.buys.map(row => (
+                                        <TableRow key={row.id}>
+                                            <TableCell>{row.name}</TableCell>
+                                            <TableCell>{row.units}</TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
+
+                        </Table>
+                        : ""
+                }
+
+
+            </Layout>
+        )
+    }
 }
+
+export default Deposits;
