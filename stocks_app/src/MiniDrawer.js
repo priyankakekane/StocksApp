@@ -49,9 +49,9 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing.unit * 7 + 1,
+    width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9 + 1,
+      width: theme.spacing(9),
     },
   },
   toolbar: {
@@ -63,7 +63,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing * 3,
   },
   tabActive:{
     '&:hover': {
@@ -141,7 +141,7 @@ class MiniDrawer extends React.Component {
              <MenuList style={{marginTop: '15px'}}>
 
                 <a href="/" style={{textDecoration: 'none'}}>
-                  <MenuItem selected={(window.location.pathname == '/portfolio') ? true : false} className={classes.tabActive}>
+                  <MenuItem selected={(window.location.pathname == '/') ? true : false} className={classes.tabActive}>
                       <ListItemIcon>
                     <ListStocksIcon style={{ color: '#ffff' }} />
                       </ListItemIcon>
@@ -154,7 +154,7 @@ class MiniDrawer extends React.Component {
             <MenuList style={{ marginTop: '15px' }}>
 
                 <a href="/portfolio" style={{ textDecoration: 'none' }}>
-                    <MenuItem selected={(window.location.pathname == '/portfolio') ? true : false} className={classes.tabActive} onClick={(transactions) => this.changeMenu(transactions)}>
+                    <MenuItem selected={(window.location.pathname == '/portfolio') ? true : false} className={classes.tabActive}>
                         <ListItemIcon>
                     <PortFolioIcon style={{ color: '#ffff' }}/>
                         </ListItemIcon>
