@@ -19,7 +19,8 @@
     "react-dom": "latest",
     "react-loading-overlay": "^1.0.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "sweetalert2": "^9.7.1"
   },
   "browserslist": {
     "production": [

@@ -16,6 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import { Grid, TextField } from '@material-ui/core';
+import Swal from 'sweetalert2';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -112,12 +113,24 @@ class Deposits extends React.Component {
                     })
                 })
                 .catch((error) => {
-
+                    Swal.fire({
+                        title: 'Could not process your buying request!',
+                        text: 'Please try again to buy this stock',
+                        icon: 'error',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, keep it'
+                    })
                 })
 
         }
         else {
-             alert("Not available cash");
+            Swal.fire({
+                title: 'Cash not Available!',
+                text: 'Please buy again by adding cash',
+                icon: 'warning',
+                confirmButtonText: 'CLOSE',
+                // cancelButtonText: 'No, keep it'
+            })
         }
 
         
@@ -156,12 +169,24 @@ class Deposits extends React.Component {
 
                 })
                 .catch((error) => {
-                    console.log(error.status);
+                    Swal.fire({
+                        title: 'Selling went wrong',
+                        text: 'Try Selling the stock',
+                        icon: 'error',
+                        confirmButtonText: 'CLOSE',
+                        // cancelButtonText: 'No, keep it'
+                    })
                 })
 
         }
         else {
-            alert("not available Stock");
+            Swal.fire({
+                title: 'Number of Stocks exceed your limit',
+                text: 'In order to sell more buy more!',
+                icon: 'warning',
+                confirmButtonText: 'CLOSE',
+                // cancelButtonText: 'No, keep it'
+            })
         }
 
 
@@ -235,7 +260,7 @@ class Deposits extends React.Component {
 
 
 
-
+    //Used Dialog to show that sometheing is wrong (500 statuscode)
     render() {
         const { classes, theme } = this.props;
         return (
