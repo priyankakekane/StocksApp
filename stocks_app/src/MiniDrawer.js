@@ -66,10 +66,8 @@ const styles = theme => ({
     padding: theme.spacing * 3,
   },
   tabActive:{
-    '&:hover': {
-     borderRadius: '0 8px 8px 0',	
-     backgroundColor: '#4A90E2',
-    },
+    backgroundColor:'#4a90e2 !important',
+    borderRadius: '0 8px 8px 0',
     marginTop: '16px',
     padding: '20px',
     height: '48px',
@@ -151,19 +149,7 @@ class MiniDrawer extends React.Component {
 
              </MenuList>
 
-            {/* <MenuList style={{ marginTop: '15px' }}>
-
-                <a href="/portfolio" style={{ textDecoration: 'none' }}>
-                    <MenuItem selected={(window.location.pathname == '/portfolio') ? true : false} className={classes.tabActive}>
-                        <ListItemIcon>
-                    <PortFolioIcon style={{ color: '#ffff' }}/>
-                        </ListItemIcon>
-                        <span style={{ color: '#ffff' }}>List Stocks</span>
-                    </MenuItem>
-                </a>
-
-            </MenuList> */}
-
+            
           </Drawer>   
            <main className={classes.content,{ [classes.contentShift]: this.state.open }} style={{width: '100%', overflowX: 'hidden'}}>{this.props.childComponent}</main>   
         </div>

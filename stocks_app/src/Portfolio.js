@@ -261,7 +261,7 @@ class Deposits extends React.Component {
                                     }
                                     <TableCell>
                                         Buy Stock
-                                </TableCell>
+                                   </TableCell>
 
 
                                 </TableRow>
