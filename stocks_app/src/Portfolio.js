@@ -8,8 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Layout from './Layout';
 import axios from 'axios';
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -212,7 +210,7 @@ class Deposits extends React.Component {
 
     componentDidMount() {
         this.getStocks();
-        // this.interval = setInterval(() => this.getStocks(), 10000);
+        this.interval = setInterval(() => this.getStocks(), 10000);
         let userId = 2;
 
         axios.get(`https://work.setu.co/assignments/stock-ui/${userId}/portfolio`)
