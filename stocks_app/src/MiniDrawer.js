@@ -151,7 +151,7 @@ class MiniDrawer extends React.Component {
 
              </MenuList>
 
-            <MenuList style={{ marginTop: '15px' }}>
+            {/* <MenuList style={{ marginTop: '15px' }}>
 
                 <a href="/portfolio" style={{ textDecoration: 'none' }}>
                     <MenuItem selected={(window.location.pathname == '/portfolio') ? true : false} className={classes.tabActive}>
@@ -162,7 +162,7 @@ class MiniDrawer extends React.Component {
                     </MenuItem>
                 </a>
 
-            </MenuList>
+            </MenuList> */}
 
           </Drawer>   
            <main className={classes.content,{ [classes.contentShift]: this.state.open }} style={{width: '100%', overflowX: 'hidden'}}>{this.props.childComponent}</main>   

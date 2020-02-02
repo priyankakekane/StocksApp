@@ -16,6 +16,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 
 
@@ -33,9 +34,14 @@ class Orders extends React.Component {
             stockList: [],
             notifyError: false,
             userPortfolio: {},
+            buyingModal : false,
+            units: 0
         }
 
         this.createBuyRequest = this.createBuyRequest.bind(this);
+        this.openDialog = this.openDialog.bind(this);
+        this.getNoOfBuyingStock = this.getNoOfBuyingStock.bind(this);
+
 
     }
 
@@ -49,6 +55,20 @@ class Orders extends React.Component {
     closeNotifyError = () => {
         this.setState({
             notifyError: false
+        })
+    }
+
+    closebuyingModal = () =>{
+        this.setState({
+            buyingModal : false
+        })
+    }
+
+    openDialog(stockId, stockPrice){
+        this.setState({
+            buyingModal : true,
+            buyStockId : stockId,
+            stockPrice : stockPrice
         })
     }
 
@@ -66,21 +86,21 @@ class Orders extends React.Component {
             })
     }
 
-    createBuyRequest(stockId) {
-        console.log(stockId);
+    createBuyRequest() {
         let userId = 2;
         var headers = {
             "Content-Type": "application/json"
         }
 
         var postOptions = {
-            stockId : stockId,
-            unitsToBuy : 5
+            stockId : this.state.buyStockId,
+            unitsToBuy : this.state.units
         }
-
+    
         axios.post(`https://work.setu.co/assignments/stock-ui/${userId}/buy`, postOptions, headers)
             .then((response) => {
                 this.setState({
+                    buyingModal : false,
                     stockList: response.data.data
                 })
             })
@@ -91,6 +111,16 @@ class Orders extends React.Component {
             })
 
         
+    }
+
+    getNoOfBuyingStock(e) {
+        console.log(e.target.value)
+
+    
+
+        this.setState({
+            units : e.target.value
+        })
     }
 
     
@@ -141,7 +171,7 @@ class Orders extends React.Component {
                                         }
 
                                         <TableCell id={row.id}>
-                                            <Button onClick={() => this.createBuyRequest(row.id)} color="primary">
+                                            <Button onClick={() => this.openDialog(row.id, row.price)} color="primary">
                                                 BUY
                                             </Button>
                                         </TableCell>    
@@ -177,13 +207,45 @@ class Orders extends React.Component {
                         <Button onClick={this.closeNotifyError} color="primary">
                             Disagree
                         </Button>
-                        <Button onClick={this.getStocks} color="primary">
+                        <Button color="primary">
                             Retry
                         </Button>
 
                         
                     </DialogActions>
                 </Dialog>
+
+
+                <Dialog
+                    open={this.state.buyingModal}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={this.closebuyingModal}
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <DialogTitle id="alert-dialog-slide-title">Buy  Stock</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            <TextField
+                                id="standard-number"
+                                label="Number"
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={(e)=>{this.getNoOfBuyingStock(e)}}
+                                
+                            />
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.createBuyRequest} color="primary">
+                            CONFIRM
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
 
 
 
